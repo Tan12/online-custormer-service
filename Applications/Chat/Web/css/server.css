@@ -1,0 +1,152 @@
+body{
+  font-size: 18px;
+}
+p{
+  mrgin: 0;
+  padding: 0;
+}
+.container{
+  width: 1000px;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+#user-list{
+  margin-top: 30px;
+}
+.show-box{
+  width: 100%;
+  min-width: 600px;
+  height: 480px;
+  border: 1px solid #333;
+}
+.show-box div[id^='show-msg']{
+  width: 980px;
+  height: 460px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: absolute;
+  margin: 10px;
+  background-color: white;
+}
+.show-box section{
+  clear: both;
+}
+.show-box p.left,
+.show-box p.right{
+  background-color: lightblue;
+  max-width: 600px;
+  padding: 5px;
+  border-radius: 5px;
+  display: inline-block;
+  position:relative;
+  vertical-align: top;
+  word-wrap:break-word;
+  margin: 8px 0;
+}
+.show-box p.left{
+  margin-left: 10px;
+}
+.show-box p.left::before,
+.show-box p.right::before{
+  content: '';
+  width: 0;
+  height: 0;
+  border: 8px solid transparent;
+  position: absolute;
+}
+.show-box p.left::before{
+  border-right-color: lightblue;
+  left: -15px;
+}
+.show-box p.right{
+  margin-right: 10px;
+  float: right;
+}
+.show-box p.right::before{
+  border-left-color: lightblue;
+  right: -15px;
+}
+.show-box p.center{ /*系统提示*/
+  width: 100%;
+  text-align: center;
+  font-size: .8rem;
+  background-color: #e6e6e6;
+  padding: 5px;
+}
+#user-list{
+  margin-top: 30px;
+}
+.current-user{
+  z-index: 1024;
+}
+.hidden{
+  display: none;
+}
+
+input[type=radio]{
+  margin: 0;
+}
+label{
+  cursor: pointer;
+}
+.tags{
+  display: inline-block;
+  border: 1px solid #333;
+  border-bottom-color: transparent;
+  color: #9c9c9c;
+  padding: 10px 20px;
+  border-radius: 10px 10px 0 0;
+}
+#user-list div:nth-of-type(n+2){
+  margin-left: -5px;
+  border-left: transparent;
+}
+
+/*当前用户标签样式*/
+.current{
+  color: #44b549;
+  font-weight: bold;
+}
+/*新消息提醒样式*/
+.new::before{
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  background-color: red;
+  position: absolute;
+  margin-left: -12px;
+  margin-top: -5px;
+  left: -12px
+  z-index: 999;
+}
+/*关闭按钮样式*/
+.close{
+  color: red;
+  display: inline-block;
+  position: absolute;
+  margin-left: 5px;
+  margin-top: -1px;
+  cursor: pointer;
+}
+
+/*输入框*/
+#chat-box{
+  margin-top: 30px;
+  text-align: center;
+}
+#msg{
+  width: 50%;
+  border: 1px solid #44b549;
+  padding: 8px 5px;
+}
+#sm{
+  padding: 6px 20px;
+  background-color: white;
+  border: 1px solid #44b549;
+  cursor: pointer;
+}
+#msg,
+#sm{
+  border-radius: 5px;
+}

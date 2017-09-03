@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>客服端</title>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <link href="css/server.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+  <form id="user-list"></form>
+
+  <div class="show-box"></div>
+
+  <form id="chat-box">
+      <input id="msg" type="text" name="message" />
+      <input id="sm" type="submit" name="submit" value="提交" />
+  </form>
+</div>
+
+<script src="vendor/swfobject.js"></script>
+<script src="vendor/web_socket.js"></script>
+<script src="vendor/jquery-3.2.1.min.js"></script>
+<script>
+  // 如果浏览器不支持websocket，会使用这个flash自动模拟websocket协议，此过程对开发者透明
+  WEB_SOCKET_SWF_LOCATION = "/swf/WebSocketMain.swf";
+  // 开启flash的websocket debug
+  WEB_SOCKET_DEBUG = true;
+</script>
+<script src="js/server.js"></script>
+</body>
+</html>
