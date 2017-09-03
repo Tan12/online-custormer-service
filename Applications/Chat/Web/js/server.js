@@ -159,7 +159,7 @@ $(function(){
         }
       }else if($obj.type === 'someone'){ //有客服在线了，只有type跟msg有值
 	     alert($obj.msg);
-		 window.location = 'http://weixin.szrdit.com/index.php?g=System&m=Admin&a=index';
+		 window.location = '404.html';
       }
     }else{
       console.log($data);
