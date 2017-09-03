@@ -19,7 +19,7 @@ $(function(){
     }
   });
 
-  function open(){
+  function open(){ // 向服务端发起ws连接
     ws.send('userlink');
     //console.log("连接成功");
   }

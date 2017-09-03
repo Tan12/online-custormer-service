@@ -31,32 +31,43 @@ class Events{
   */
   public static function onMessage($client_id, $message){
     global $online;
-	global $sid;
+    global $sid;
+    // 因为一开始做的是多个客服的，所以设置了一个“userlink”的消息类型用来表示用户刚发起ws连接
+    // 用以返回在线客服列表，用户即可选择客服聊天
+    // 后来是因为只需要一个客服就没做那么多了
+    // 这些设置就先留着了，以防以后有需要再改
+    // 所有这个“userlink”不用管，用户端主要就是把消息发给客服端
     if($message !== 'userlink'){
       $message = json_decode($message);
       $message->time = date('Y-m-d H:i:s');
       if($message->type === 'server'){
-        if(!$online){
-		  Gateway::bindUid($client_id, $message->from);
+        // 消息类型为“server”是客服端发来的消息
+        if(!$online){ 
+          // 如果当前没有客服在线，则为当前客服绑定她的uid
+          // 这样不论客服刷新多少次，只要她重新上线，用户就能根据这个uid找到她
+  		    Gateway::bindUid($client_id, $message->from);
           $online = $message->from;
-		  $sid = $client_id;
-		  if(Gateway::getClientCountByGroup($message->from)){
-			 $message->type = 'ifonline';
-			 $message->msg = '当前客服已上线';
-			 Gateway::sendToGroup($message->from, json_encode($message));
-		  }
+  		    $sid = $client_id;
+          // 获取当前与该客服聊天的用户，将客服上线的消息广播给他们
+    		  if(Gateway::getClientCountByGroup($message->from)){
+            $message->type = 'ifonline';
+            $message->msg = '当前客服已上线';
+            Gateway::sendToGroup($message->from, json_encode($message));
+    		  }
         }else if($client_id === $sid){
-			if($message->to && $message->msg){
-			  Gateway::sendToClient($message->to, json_encode($message));        
-			}
-		}else{
-			$msg->type = 'someone';
-			$msg->msg = '当前已有客服在线';
-			Gateway::sendToClient($client_id, json_encode($msg));
-		}
+          // 如果是当前在线的客服，则将消息发给当前与客服聊天的用户
+    			if($message->to && $message->msg){
+    			  Gateway::sendToClient($message->to, json_encode($message));
+    			}
+    		}else{
+          // 如果当前已有客服在线，则返回提示信息，客服端将做出对应处理
+    			$msg->type = 'someone';
+    			$msg->msg = '当前已有客服在线';
+    			Gateway::sendToClient($client_id, json_encode($msg));
+    		}
         //echo($online);
       }else if($message->type === 'user'){
-
+        // 消息类型为“user”是用户端发来的消息
         $message->from = $client_id;
         Gateway::joinGroup($client_id, $message->to); // 将同一个客服的用户归到一组
         //var_export(Gateway::getClientSessionsByGroup($message->to));
@@ -66,10 +77,9 @@ class Events{
     }else{// 用户刚接入，返回在线客服数组
       $msg->type = 'online';
       $msg->online = $online;
-      Gateway::sendToClient($client_id, json_encode($msg)); 
+      Gateway::sendToClient($client_id, json_encode($msg));
       //echo "linked";
     }
-    //var_dump($message);
   }
 
   /**
